@@ -360,7 +360,12 @@ promise_test(async t => {
   delete pc1.candidateBuffer;
   await listenToIceConnected(pc1);
   await listenToIceConnected(pc2);
-  assert_array_equals(pc1.iceStates, ['new', 'checking', 'connected']);
+  if (pc1.iceStates.length == 3) {
+    assert_array_equals(pc1.iceStates, ['new', 'checking', 'connected']);
+  } else {
+    assert_array_equals(pc1.iceStates, ['new', 'checking', 'connected',
+                                        'completed']);
+  }
   assert_array_equals(pc2.iceStates, ['new', 'checking', 'connected']);
 }, 'Responder ICE connection state behaves as expected');
 
